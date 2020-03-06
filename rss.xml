@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Mar 2020 07:25:26 GMT</lastBuildDate><item><title><![CDATA[React Navigation 5.x 踩坑! Android keeps stopping 問題]]></title><description><![CDATA[一陣子沒碰 React Native，最近看到 react-navigation 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。 Android App 持續出現 keeps stopping 跑在 ios…]]></description><link>https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</guid><pubDate>Thu, 20 Feb 2020 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;一陣子沒碰 &lt;a href=&quot;https://reactnative.dev/&quot;&gt;React Native&lt;/a&gt;，最近看到 &lt;a href=&quot;https://reactnavigation.org/en/&quot;&gt;react-navigation&lt;/a&gt; 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Mar 2020 08:17:09 GMT</lastBuildDate><item><title><![CDATA[React Navigation 5.x 踩坑! Android keeps stopping 問題]]></title><description><![CDATA[一陣子沒碰 React Native，最近看到 react-navigation 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。 Android App 持續出現 keeps stopping 跑在 ios…]]></description><link>https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</guid><pubDate>Thu, 20 Feb 2020 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;一陣子沒碰 &lt;a href=&quot;https://reactnative.dev/&quot;&gt;React Native&lt;/a&gt;，最近看到 &lt;a href=&quot;https://reactnavigation.org/en/&quot;&gt;react-navigation&lt;/a&gt; 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。&lt;/p&gt;
 &lt;h2&gt;Android App 持續出現 keeps stopping&lt;/h2&gt;
 &lt;p&gt;跑在 ios 上完全沒出錯，可是跑在 android 卻無法正常開啟 App，如下圖。&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 782px;&quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -20,12 +20,11 @@
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Chinese Salty Egg&quot;
         title=&quot;Chinese Salty Egg&quot;
-        src=&quot;/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/1c72d/p1.jpg&quot;
-        srcset=&quot;/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/a80bd/p1.jpg 148w,
-/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/1c91a/p1.jpg 295w,
-/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/1c72d/p1.jpg 590w,
+        src=&quot;/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/22bc6/p1.jpg&quot;
+        srcset=&quot;/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/e07e9/p1.jpg 200w,
+/static/1064fae3c2b8a06a5dc2d4ca1d5840dc/066f9/p1.jpg 400w,
 /static/1064fae3c2b8a06a5dc2d4ca1d5840dc/22bc6/p1.jpg 782w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        sizes=&quot;(max-width: 782px) 100vw, 782px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
@@ -70,7 +69,7 @@ dependencies &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
 &lt;p&gt;下圖左邊是踩坑當天的文件，右邊是寫這篇文章時的文件…，右邊已補上 react-native-screens 的那段(紅色框框)。&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 800px;&quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -87,14 +86,14 @@ dependencies &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Chinese Salty Egg&quot;
         title=&quot;Chinese Salty Egg&quot;
-        src=&quot;/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/fcda8/p2.png&quot;
-        srcset=&quot;/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/12f09/p2.png 148w,
-/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/e4a3f/p2.png 295w,
-/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/fcda8/p2.png 590w,
-/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/efc66/p2.png 885w,
-/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/c83ae/p2.png 1180w,
+        src=&quot;/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/5a190/p2.png&quot;
+        srcset=&quot;/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/772e8/p2.png 200w,
+/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/e17e5/p2.png 400w,
+/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/5a190/p2.png 800w,
+/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/c1b63/p2.png 1200w,
+/static/f0cb500b9475f83e3d0fd5ef2bb12aa5/29007/p2.png 1600w,
 /static/f0cb500b9475f83e3d0fd5ef2bb12aa5/7ebf9/p2.png 1919w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
