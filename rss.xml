@@ -1,4 +1,196 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Mar 2020 08:33:02 GMT</lastBuildDate><item><title><![CDATA[React Navigation 5.x 踩坑! Android keeps stopping 問題]]></title><description><![CDATA[一陣子沒碰 React Native，最近看到 react-navigation 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。 Android App 持續出現 keeps stopping 跑在 ios…]]></description><link>https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</guid><pubDate>Thu, 20 Feb 2020 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;一陣子沒碰 &lt;a href=&quot;https://reactnative.dev/&quot;&gt;React Native&lt;/a&gt;，最近看到 &lt;a href=&quot;https://reactnavigation.org/en/&quot;&gt;react-navigation&lt;/a&gt; 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 27 Mar 2020 06:59:58 GMT</lastBuildDate><item><title><![CDATA[搞懂 Git Merge 的 fast-forward (快進模式)]]></title><description><![CDATA[不知道大家在 merge 時有沒有產生一個疑問，一樣都是下  指令，但有時候會要求你建立 commit 點，有時候又不會，到底是為什麼呢？
+答案就是 merge 的 fast-forward(快進模式) 什麼是 fast-forward 快進模式 使用 時，Git…]]></description><link>https://willlaiwk.github.io/2020-03-27-git-merge-fast-forward/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-03-27-git-merge-fast-forward/</guid><pubDate>Fri, 27 Mar 2020 14:20:00 GMT</pubDate><content:encoded>&lt;p&gt;不知道大家在 merge 時有沒有產生一個疑問，一樣都是下 &lt;code class=&quot;language-text&quot;&gt;git merge&lt;/code&gt; 指令，但有時候會要求你建立 commit 點，有時候又不會，到底是為什麼呢？
+答案就是 merge 的 fast-forward(快進模式)&lt;/p&gt;
+&lt;h2&gt;什麼是 fast-forward 快進模式&lt;/h2&gt;
+&lt;p&gt;使用 &lt;code class=&quot;language-text&quot;&gt;fast-forward(快進模式)&lt;/code&gt;時，Git 會在 merge 時檢查：&lt;code class=&quot;language-text&quot;&gt;「併進來的分支可不可以直接接續在當前的 commit 點」&lt;/code&gt;。
+若可以則直接往後接；若不行則產生一個 merge commit 點，也就是原本 merge 的動作。&lt;/p&gt;
+&lt;p&gt;若想在 merge 時使用 fast-forward ，可以下指令：&lt;code class=&quot;language-text&quot;&gt;git merge --ff ...&lt;/code&gt;，&lt;/p&gt;
+&lt;p&gt;不過 Git 預設 merge 就是使用 fast-forward 的，所以下指令： &lt;code class=&quot;language-text&quot;&gt;git merge ...&lt;/code&gt; 就可以囉。&lt;/p&gt;
+&lt;p&gt;但有時你就是想在 merge 時產生 commit 點，那可以使用 &lt;code class=&quot;language-text&quot;&gt;git merge --no-ff&lt;/code&gt; 指令，強制不使用 fast-forward。&lt;/p&gt;
+&lt;h2&gt;情境 1 - 可以使用 fast-forward 的情況&lt;/h2&gt;
+&lt;p&gt;想像一下，我們為了開發系統的新功能，所以從 master 切出 feature 分支。&lt;/p&gt;
+&lt;p&gt;現在 feature 開發完了，並記錄了兩個 commit 點，現在我們想把他合併回 master。&lt;/p&gt;
+&lt;p&gt;當前線圖狀況如下：
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 411px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1b0a1470f9a54e4b0ad75ce30ac4a3c2/d3fc3/origin1.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 108.27250608272504%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAWABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAECAwX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB7lpomiCzkSWB/8QAGRAAAgMBAAAAAAAAAAAAAAAAAREAAhAg/9oACAEBAAEFArEcFjbFRz//xAAVEQEBAAAAAAAAAAAAAAAAAAAQAf/aAAgBAwEBPwEp/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAGBABAQADAAAAAAAAAAAAAAAAARAgQWH/2gAIAQEABj8CMDdOs//EABwQAAMAAgMBAAAAAAAAAAAAAAABERAxIVFxkf/aAAgBAQABPyFPk9uDVxLsZkKG/hX1i/yEn//aAAwDAQACAAMAAAAQdAfC/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAEREP/aAAgBAwEBPxDGiKf/xAAXEQADAQAAAAAAAAAAAAAAAAABEBEx/9oACAECAQE/EDEcX//EAB0QAQACAQUBAAAAAAAAAAAAAAEAESEQMVFhcZH/2gAIAQEAAT8QwCwj1gUsutECgJ3ARaBznt2Q5P00MqXT53gxsz//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;origin1&quot;
+        title=&quot;origin1&quot;
+        src=&quot;/static/1b0a1470f9a54e4b0ad75ce30ac4a3c2/d3fc3/origin1.jpg&quot;
+        srcset=&quot;/static/1b0a1470f9a54e4b0ad75ce30ac4a3c2/e07e9/origin1.jpg 200w,
+/static/1b0a1470f9a54e4b0ad75ce30ac4a3c2/066f9/origin1.jpg 400w,
+/static/1b0a1470f9a54e4b0ad75ce30ac4a3c2/d3fc3/origin1.jpg 411w&quot;
+        sizes=&quot;(max-width: 411px) 100vw, 411px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;這邊我們先暫停一下，下面將會以這個線圖狀態，分別模擬兩種情形：「用 fast-forward」 與 「不用 fast-forward」來比較改變後的線圖差異。&lt;/p&gt;
+&lt;h3&gt;1-1. 用 fast-forward&lt;/h3&gt;
+&lt;p&gt;我們切回了 master 分支，這時我們會在 &lt;code class=&quot;language-text&quot;&gt;Add A.txt&lt;/code&gt; 的那個 commit 點上。&lt;/p&gt;
+&lt;p&gt;然後執行以下指令：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ git merge feature --ff
+or
+$ git merge feature&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這時你會發現，feature 的 commit 點直接接在 &lt;code class=&quot;language-text&quot;&gt;Add A.txt&lt;/code&gt; commit 點後了，如下圖：
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 251px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/83c1e204713425f1ad8e01e569060ee8/0ce01/origin1-merge.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 160.95617529880477%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAgABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMBAgQF/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhADEAAAAe9Wy4aSTGfQhXAB/8QAGhAAAQUBAAAAAAAAAAAAAAAAAQACAxARIf/aAAgBAQABBQLNWV1RggVGXltRyB7dX//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8BH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EAB0QAAECBwAAAAAAAAAAAAAAABABEQISICEiQWH/2gAIAQEABj8CoWZdnKFrl+j/xAAcEAEAAgIDAQAAAAAAAAAAAAABABEQMSFRkUH/2gAIAQEAAT8hRtAOK7HkKgW2suGxbi4L9KwwA7GoB78n/9oADAMBAAIAAwAAABDLDjz/xAAXEQADAQAAAAAAAAAAAAAAAAABEDFB/9oACAEDAQE/ENiEi//EABcRAAMBAAAAAAAAAAAAAAAAAAEQMRH/2gAIAQIBAT8QzRUJF//EACAQAQACAgEEAwAAAAAAAAAAAAEAESExEEFRcfCBkaH/2gAIAQEAAT8QesL8pDlRwptgUVMns/YuBIIrrwzGLYo1fpGm15vg50Mxd5oPsp//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;origin1-merge-ff&quot;
+        title=&quot;origin1-merge-ff&quot;
+        src=&quot;/static/83c1e204713425f1ad8e01e569060ee8/0ce01/origin1-merge.jpg&quot;
+        srcset=&quot;/static/83c1e204713425f1ad8e01e569060ee8/e07e9/origin1-merge.jpg 200w,
+/static/83c1e204713425f1ad8e01e569060ee8/0ce01/origin1-merge.jpg 251w&quot;
+        sizes=&quot;(max-width: 251px) 100vw, 251px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;1-2. 不用 fast-forward&lt;/h3&gt;
+&lt;p&gt;我們一樣切回了 master 分支，這時我們會在 &lt;code class=&quot;language-text&quot;&gt;Add A.txt&lt;/code&gt; 的那個 commit 點上。
+現在我們強制不使用 fast-forward，所以執行以下指令：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ git merge feature --no-ff
+
+這時會要求輸入 commit，這裡我簡單紀錄一下：
+Merge branch &amp;#39;feature&amp;#39; into master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這時你會發現，與剛上面的1-1範例不同。我們建立了一個 commit 點:&lt;code class=&quot;language-text&quot;&gt;「Merge branch &amp;#39;feature&amp;#39;」&lt;/code&gt;，然後保留了原本 feature 分支的線圖狀態。
+如下圖：
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 461px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6eba3bc3b68cb2b95027ab34bcbe220d/9f170/origin1-merge-no-ff.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 122.55965292841648%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAECBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB7lkpYhUs9W6DMH//xAAaEAACAgMAAAAAAAAAAAAAAAAQIQERAAMy/9oACAEBAAEFApll2Hebux//xAAWEQEBAQAAAAAAAAAAAAAAAAAAERD/2gAIAQMBAT8ByI//xAAWEQEBAQAAAAAAAAAAAAAAAAAAERD/2gAIAQIBAT8ByI//xAAZEAABBQAAAAAAAAAAAAAAAAAgAQMQYXH/2gAIAQEABj8CQKFvZ//EAB0QAAICAgMBAAAAAAAAAAAAAAERECEAMUFRobH/2gAIAQEAAT8hAGcnrFc0qqQSBs4idoLUel8g7z//2gAMAwEAAgADAAAAEKTIMP/EABYRAQEBAAAAAAAAAAAAAAAAAAEQMf/aAAgBAwEBPxCYGP/EABYRAQEBAAAAAAAAAAAAAAAAAAEQMf/aAAgBAgEBPxBmBj//xAAeEAACAwABBQAAAAAAAAAAAAABEQAhMRBBUXGh8P/aAAgBAQABPxAcgWgFqoxFKvg3RiBBWKOg16gavYtQGUGdiCtIU3Lgyy59rvg6eRwf/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;origin1-merge-no-ff&quot;
+        title=&quot;origin1-merge-no-ff&quot;
+        src=&quot;/static/6eba3bc3b68cb2b95027ab34bcbe220d/9f170/origin1-merge-no-ff.jpg&quot;
+        srcset=&quot;/static/6eba3bc3b68cb2b95027ab34bcbe220d/e07e9/origin1-merge-no-ff.jpg 200w,
+/static/6eba3bc3b68cb2b95027ab34bcbe220d/066f9/origin1-merge-no-ff.jpg 400w,
+/static/6eba3bc3b68cb2b95027ab34bcbe220d/9f170/origin1-merge-no-ff.jpg 461w&quot;
+        sizes=&quot;(max-width: 461px) 100vw, 461px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;情境 2 - 無法使用 fast-forward&lt;/h2&gt;
+&lt;p&gt;如 &lt;code class=&quot;language-text&quot;&gt;情境 1&lt;/code&gt;，我們同樣切 feature 分支開發新功能，但當我們開發完功能時發現， master 居然已經先被別人更新了。這時的線圖如下圖：
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 411px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6218e11953333b37d7e51335f1a5577a/d3fc3/origin2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 127.73722627737227%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAECBAMF/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQD/2gAMAwEAAhADEAAAAfcomOgiUs2tEUD/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAEQAAIR/9oACAEBAAEFAukrn0jmd3//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwEh/8QAGhAAAgIDAAAAAAAAAAAAAAAAARACICFBcv/aAAgBAQAGPwIUG2MKPT//xAAdEAACAgIDAQAAAAAAAAAAAAABEQAhEEExUXGR/9oACAEBAAE/IQ7HkqEPGnsIiBCfkZ6mnsfg13GeoZdtM//aAAwDAQACAAMAAAAQVAsw/8QAFhEBAQEAAAAAAAAAAAAAAAAAARAR/9oACAEDAQE/EIOqT//EABYRAQEBAAAAAAAAAAAAAAAAAAEQEf/aAAgBAgEBPxByOAZ//8QAHhABAAEDBQEAAAAAAAAAAAAAAREAIWEQMVFxkbH/2gAIAQEAAT8QsCsjtoISTGhECCQ3oEWAb3yyUcn0r4KZZ0yQdjmsn0rdbvy6/wD/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;origin2&quot;
+        title=&quot;origin2&quot;
+        src=&quot;/static/6218e11953333b37d7e51335f1a5577a/d3fc3/origin2.jpg&quot;
+        srcset=&quot;/static/6218e11953333b37d7e51335f1a5577a/e07e9/origin2.jpg 200w,
+/static/6218e11953333b37d7e51335f1a5577a/066f9/origin2.jpg 400w,
+/static/6218e11953333b37d7e51335f1a5577a/d3fc3/origin2.jpg 411w&quot;
+        sizes=&quot;(max-width: 411px) 100vw, 411px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;這時我們切回 master 應該會在 &lt;code class=&quot;language-text&quot;&gt;Add Z.txt&lt;/code&gt; 這個 commit 點上。&lt;/p&gt;
+&lt;p&gt;然後輸入以下指令：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ git merge feature --ff
+or 
+$ git merge feature&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;當你輸入完你會發現，Git 要求你一定要輸入 commit 訊息，然後輸入完線圖就會變成下面這樣。如下圖：
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 462px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/dc2839d3153c773e074d001c57de8d19/dd9aa/origin2-merge.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 148.26839826839827%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAeABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgABBf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHuPMR2SmCHCP/EABsQAAIDAAMAAAAAAAAAAAAAAAABAhIhEBFB/9oACAEBAAEFAm953sb30nKpZFj/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAYEAEBAAMAAAAAAAAAAAAAAAABECBRYf/aAAgBAQAGPwIw5Chu/wD/xAAcEAACAgIDAAAAAAAAAAAAAAABEQAhEFExQWH/2gAIAQEAAT8hAGOzqK8HqIKkUxQI2dREuDQpYaVzUGgxfZ//2gAMAwEAAgADAAAAEKTCsP/EABcRAAMBAAAAAAAAAAAAAAAAAAABERD/2gAIAQMBAT8QyMh//8QAFxEBAQEBAAAAAAAAAAAAAAAAAQAQEf/aAAgBAgEBPxBxLl//xAAdEAEAAwACAwEAAAAAAAAAAAABABEhMaEQQVHB/9oACAEBAAE/EDkWoG1GMpVrfG0P38ZQmgxNHOoXW8wS04WKjHmU7QnDl+9Q41uG8lcp6xb6gACjiI+o/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;origin2-merge&quot;
+        title=&quot;origin2-merge&quot;
+        src=&quot;/static/dc2839d3153c773e074d001c57de8d19/dd9aa/origin2-merge.jpg&quot;
+        srcset=&quot;/static/dc2839d3153c773e074d001c57de8d19/e07e9/origin2-merge.jpg 200w,
+/static/dc2839d3153c773e074d001c57de8d19/066f9/origin2-merge.jpg 400w,
+/static/dc2839d3153c773e074d001c57de8d19/dd9aa/origin2-merge.jpg 462w&quot;
+        sizes=&quot;(max-width: 462px) 100vw, 462px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;會發現這裡無法使用 fast-forward 是因為， feature 是從 &lt;code class=&quot;language-text&quot;&gt;Add A.txt&lt;/code&gt; 這個 commit 點切出去的，照理說使用 fast-forward 的話，&lt;code class=&quot;language-text&quot;&gt;Add B.txt&lt;/code&gt; 與 &lt;code class=&quot;language-text&quot;&gt;Add C.txt&lt;/code&gt; 應該要接在 &lt;code class=&quot;language-text&quot;&gt;Add A.txt&lt;/code&gt; 後面，可是這時候卻多了個 &lt;code class=&quot;language-text&quot;&gt;Add Z.txt&lt;/code&gt; 的點，所以在沒辦法順利接回的情況下，就必須走正常的 merge 流程，也就是建立一個 merge commit 點。&lt;/p&gt;
+&lt;p&gt;若這個狀況下，你真的就想要使用 fast-forward…&lt;/p&gt;
+&lt;p&gt;你可以考慮先在 feature 分支 &lt;code class=&quot;language-text&quot;&gt;rebase&lt;/code&gt; master 分支，再使用 &lt;code class=&quot;language-text&quot;&gt;fast-forward&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;不過 &lt;code class=&quot;language-text&quot;&gt;rebase&lt;/code&gt; 又是另一個故事了…&lt;/p&gt;
+&lt;h2&gt;總結&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Git Merge 預設就是使用 fast-forward。&lt;/li&gt;
+&lt;li&gt;使用 fast-forward 的指令：&lt;code class=&quot;language-text&quot;&gt;git merge&lt;/code&gt; or &lt;code class=&quot;language-text&quot;&gt;git merge --ff&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;強制不使用 fast-forward 的指令：&lt;code class=&quot;language-text&quot;&gt;git merge --no-ff&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;fast-forward 模式只有在: &lt;code class=&quot;language-text&quot;&gt;併進來的分支可以直接接續在當前的 commit 點後面的情況下才會成功&lt;/code&gt;，不然一律都需要建立 merge 的 commit 點。&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[React Navigation 5.x 踩坑! Android keeps stopping 問題]]></title><description><![CDATA[一陣子沒碰 React Native，最近看到 react-navigation 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。 Android App 持續出現 keeps stopping 跑在 ios…]]></description><link>https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-02-20-rn-react-navigation5-android-keep-stopping/</guid><pubDate>Thu, 20 Feb 2020 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;一陣子沒碰 &lt;a href=&quot;https://reactnative.dev/&quot;&gt;React Native&lt;/a&gt;，最近看到 &lt;a href=&quot;https://reactnavigation.org/en/&quot;&gt;react-navigation&lt;/a&gt; 已經進版到了 5.x，所以就參考了官方文件，並在 ios 與 android 模擬器上運行了一下，接著就撞牆了。&lt;/p&gt;
 &lt;h2&gt;Android App 持續出現 keeps stopping&lt;/h2&gt;
 &lt;p&gt;跑在 ios 上完全沒出錯，可是跑在 android 卻無法正常開啟 App，如下圖。&lt;/p&gt;
 &lt;p&gt;&lt;span
