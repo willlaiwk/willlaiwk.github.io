@@ -1,4 +1,74 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 27 Mar 2020 06:59:58 GMT</lastBuildDate><item><title><![CDATA[搞懂 Git Merge 的 fast-forward (快進模式)]]></title><description><![CDATA[不知道大家在 merge 時有沒有產生一個疑問，一樣都是下  指令，但有時候會要求你建立 commit 點，有時候又不會，到底是為什麼呢？
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Will Lai - Programming!]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://willlaiwk.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 17 Jul 2020 06:23:50 GMT</lastBuildDate><item><title><![CDATA[如何客製化 Github 個人資訊首頁]]></title><description><![CDATA[最近 Github 悄悄地釋出了一個新功能， 可以讓你在個人首頁中透過 Markdown 文件，顯示自己的個人化資訊。 成果圖大概長這樣:  下面就讓我們來看看如何實作吧！ 建立神秘的 Repository 首先我們進入建立 Repository…]]></description><link>https://willlaiwk.github.io/2020-07-15-write-github-about-with-readme-file/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-07-15-write-github-about-with-readme-file/</guid><pubDate>Wed, 15 Jul 2020 03:11:36 GMT</pubDate><content:encoded>&lt;p&gt;最近 Github 悄悄地釋出了一個新功能，&lt;/p&gt;
+&lt;p&gt;可以讓你在個人首頁中透過 Markdown 文件，顯示自己的個人化資訊。&lt;/p&gt;
+&lt;p&gt;成果圖大概長這樣:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 800px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/835b95607e8a2c41965e2b6049ab8297/0ffd9/home-page.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 45.504300234558244%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABY0lEQVQoz21Sy07DMBDMz/JhXOFYiRMXOHDjUImHVIqgbdKQhDycxG87wzqi0LRZaZXY3h3PzDoChbYKjLXggtNqgNZmXNd1AyEkjLUwxtC+hnMewzDMpqeM6k+J5fUe6/sMLzcp3m8rOBjE8R5xssduFyPLcqRfGTbbLaSUgcPYPAca5asOy6sE6arE212G10UOC42u7UZGIU6bDjELSHchea6wuFjj8TKG8Qq9MNgVPfJajHKPgbR1SGuJgik6c2fAkfUG+QfD5qFG9tSPBUJpNG0PSV9j7FEDYB352zIIqenfnTMM/iRfCf5jgNQe360GV3bCICBaGkrVO3CqmZMdcSFQlhW0Mhg8bQZZWqChKQcPh8FPJAeZXGqcxh9gaGoYA+fiyCePhjtUlMr4kbX/ZWjorCD2BdOoOpJNHof03h+GMr0lNPdCjywcMfZ+Ol2pFLKipDeryEcFRYQ0vdFDzQ/trrv/qQKHlgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;成果&quot;
+        title=&quot;成果&quot;
+        src=&quot;/static/835b95607e8a2c41965e2b6049ab8297/5a190/home-page.png&quot;
+        srcset=&quot;/static/835b95607e8a2c41965e2b6049ab8297/772e8/home-page.png 200w,
+/static/835b95607e8a2c41965e2b6049ab8297/e17e5/home-page.png 400w,
+/static/835b95607e8a2c41965e2b6049ab8297/5a190/home-page.png 800w,
+/static/835b95607e8a2c41965e2b6049ab8297/c1b63/home-page.png 1200w,
+/static/835b95607e8a2c41965e2b6049ab8297/29007/home-page.png 1600w,
+/static/835b95607e8a2c41965e2b6049ab8297/0ffd9/home-page.png 2558w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;下面就讓我們來看看如何實作吧！&lt;/p&gt;
+&lt;h2&gt;建立神秘的 Repository&lt;/h2&gt;
+&lt;p&gt;首先我們進入建立 Repository 的頁面，並在 &lt;code class=&quot;language-text&quot;&gt;Repository name&lt;/code&gt; 中輸入與 &lt;code class=&quot;language-text&quot;&gt;Owner&lt;/code&gt; 一樣的名字，接下來就會看到下圖中 Github 所顯示的彩蛋文字囉!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 800px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/39d1902aa9a84ad09ba9ede52f4e9b16/80cfc/create-repo.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 62.68980477223427%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAABv0lEQVQ4y5VTf2/TMBDN9/9QiD9AwGjZxraOSUiso2nTJnZ+OIkTx87jfE06LxJIWHq657P95Ds/R13XYbeLcTgckCQJ8d/Ybl9QNw2ccxiGgWAxWMvRTtHnnRvhxzieox+RJsFnEnjeHfFrL/C0PSJOUiiloOqGhesphvNK1TAkOgvOiBAMh/8bs0jIo743yE4SutVwVE6WZtjvD8jzAo5K82X5MjEfnnDmr8Izj3w/qrLCSaTQpoOsSqS5RG+pd3RnM1po29H+6Sa4nOWcGx0nPD/fED3evzzhOv+J2/wH41u2wZf4Bp8JN3KDW/lI+UesT/e85rHynNYSJxYlk+C7eIOPx+/4sF9hXW7wVd7jStwx1sXDBT7v45W8w6fjNVblA2KXvhXshh7CCKSdQGYKKLSMGpoxz0PU03qFBu3YvS3Z0tPLLKc+1qhVCzs4egzqDceQv+ZsAGcXr2ypp52x8Aa3ZGQ27gLW2Uue9wTw5l+UPCIvFf2QHcqqYmGtNaMlK/l567k+87/5cY6R95TpWwghSVDRoZ6FGCTSNC3fLvwNS4SikTGGTVyRWEl+9JxRFJA59Za+4L/ElqJ/AMz177N0W9DSAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;create repo&quot;
+        title=&quot;create repo&quot;
+        src=&quot;/static/39d1902aa9a84ad09ba9ede52f4e9b16/5a190/create-repo.png&quot;
+        srcset=&quot;/static/39d1902aa9a84ad09ba9ede52f4e9b16/772e8/create-repo.png 200w,
+/static/39d1902aa9a84ad09ba9ede52f4e9b16/e17e5/create-repo.png 400w,
+/static/39d1902aa9a84ad09ba9ede52f4e9b16/5a190/create-repo.png 800w,
+/static/39d1902aa9a84ad09ba9ede52f4e9b16/c1b63/create-repo.png 1200w,
+/static/39d1902aa9a84ad09ba9ede52f4e9b16/29007/create-repo.png 1600w,
+/static/39d1902aa9a84ad09ba9ede52f4e9b16/80cfc/create-repo.png 1844w&quot;
+        sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;建立完成後，在這 Repository 中的根目錄建立 &lt;code class=&quot;language-text&quot;&gt;README.md&lt;/code&gt;，然後其內容就會顯示在你的個人首頁中囉～&lt;/p&gt;</content:encoded></item><item><title><![CDATA[搞懂 Git Merge 的 fast-forward (快進模式)]]></title><description><![CDATA[不知道大家在 merge 時有沒有產生一個疑問，一樣都是下  指令，但有時候會要求你建立 commit 點，有時候又不會，到底是為什麼呢？
 答案就是 merge 的 fast-forward(快進模式) 什麼是 fast-forward 快進模式 使用 時，Git…]]></description><link>https://willlaiwk.github.io/2020-03-27-git-merge-fast-forward/</link><guid isPermaLink="false">https://willlaiwk.github.io/2020-03-27-git-merge-fast-forward/</guid><pubDate>Fri, 27 Mar 2020 14:20:00 GMT</pubDate><content:encoded>&lt;p&gt;不知道大家在 merge 時有沒有產生一個疑問，一樣都是下 &lt;code class=&quot;language-text&quot;&gt;git merge&lt;/code&gt; 指令，但有時候會要求你建立 commit 點，有時候又不會，到底是為什麼呢？
 答案就是 merge 的 fast-forward(快進模式)&lt;/p&gt;
 &lt;h2&gt;什麼是 fast-forward 快進模式&lt;/h2&gt;
