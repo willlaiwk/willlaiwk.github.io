@@ -1,0 +1,84 @@
+1:"$Sreact.fragment"
+2:I[8500,["500","static/chunks/500-c99b8dfd3de17c86.js","904","static/chunks/app/articles/%5Bslug%5D/page-d557d41cf5fc1e4c.js"],""]
+a:I[9387,["500","static/chunks/500-c99b8dfd3de17c86.js","904","static/chunks/app/articles/%5Bslug%5D/page-d557d41cf5fc1e4c.js"],"ArticleActions"]
+f:I[484,[],"OutletBoundary"]
+10:"$Sreact.suspense"
+3:Td73,<p>當 AI 可以在幾秒鐘內產生一段程式碼，真正的挑戰就從「怎麼寫」變成「要寫什麼，以及怎麼知道它是對的」。</p>
+<p>這篇筆記提出一個可實驗的工作方式：讓 AI 參與實作，但把問題定義、技術取捨與驗證留在工程師的責任範圍內。</p>
+<h2 id="先定義問題再要求程式碼">先定義問題，再要求程式碼</h2>
+<p>「幫我加搜尋」是一個需求方向，還不是完整的工程任務。先把讀者或使用者的情境說清楚：</p>
+<ul>
+<li>需要搜尋哪些欄位？標題、摘要，還是文章全文？</li>
+<li>搜尋結果需要能透過網址分享嗎？</li>
+<li>資料量有多大？是否真的需要後端搜尋服務？</li>
+<li>找不到結果時，使用者下一步可以做什麼？</li>
+</ul>
+<p>越早回答這些問題，越能避免得到一個看起來完整、實際上不符合需求的功能。</p>
+<blockquote>
+<p>清楚的上下文不是附加資訊，而是實作的一部分。</p>
+</blockquote>
+<h2 id="把任務縮成可以驗證的一步">把任務縮成可以驗證的一步</h2>
+<p>與其一次要求 Agent 完成整個產品，不如把工作切成有明確邊界的小步驟。</p>
+<table>
+<thead>
+<tr>
+<th>階段</th>
+<th>工程師提供</th>
+<th>AI 協助</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>理解</td>
+<td>使用情境與限制</td>
+<td>整理問題、列出缺漏</td>
+</tr>
+<tr>
+<td>設計</td>
+<td>技術取捨與驗收條件</td>
+<td>提出方案與風險</td>
+</tr>
+<tr>
+<td>實作</td>
+<td>專案慣例與範圍</td>
+<td>撰寫與修改程式</td>
+</tr>
+<tr>
+<td>驗證</td>
+<td>重要情境與判斷</td>
+<td>執行檢查、整理差異</td>
+</tr>
+</tbody>
+</table>
+<p>例如先完成單一分類篩選，再處理搜尋；先確定資料流，再美化介面。每一步都有可以檢查的結果，也比較容易回頭修正。</p>
+<h3 id="一份可重複使用的任務描述">一份可重複使用的任務描述</h3>
+<pre><code class="language-text">問題：讀者難以在文章列表找到特定主題。
+範圍：標題、摘要、標籤搜尋，不搜尋全文。
+限制：沿用現有樣式，不增加資料庫。
+驗收：搜尋與分類可以組合，網址可以分享，
+      無結果時有清楚的提示與重設入口。
+</code></pre>
+<p>這不是固定的 Prompt 公式，而是一份讓合作雙方理解同一個問題的簡單契約。</p>
+<h2 id="把驗證視為開發流程">把驗證視為開發流程</h2>
+<p>程式碼能編譯，是開始，不是結束。</p>
+<p>除了型別與建置檢查，也需要實際操作：空字串、中文關鍵字、沒有結果、手機螢幕，以及瀏覽器返回後的狀態。這些情境經常比理想路徑更能看出實作品質。</p>
+<p>審查差異時，可以先問三個問題：</p>
+<ol>
+<li>這些修改是否都與目前任務有關？</li>
+<li>新的抽象與依賴是否真的必要？</li>
+<li>如果 AI 沒有參與，自己能解釋這段程式嗎？</li>
+</ol>
+<h2 id="好的合作會保留理解">好的合作，會保留理解</h2>
+<p>AI 的價值可以是減少重複工作、協助找出盲點，或讓實驗更快開始。但工程師仍需要理解系統，才能判斷解法是否合適。</p>
+<p>下一次使用 Coding Agent，可以先試一個小調整：在要求實作前，多寫三行背景與驗收條件。觀察來回修正的次數，以及自己是否更容易理解最後的結果。</p>0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"container article-page","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"讓 AI 成為開發夥伴，而不只是程式碼產生器\",\"description\":\"從釐清問題到驗證成果，建立一套保留工程判斷、也發揮 AI 優勢的開發流程。\",\"datePublished\":\"2026-10-06T00:00:00+08:00\",\"author\":{\"@type\":\"Person\",\"name\":\"Will\",\"url\":\"https://willlai.tw/about\"},\"mainEntityOfPage\":\"https://willlai.tw/articles/ai-coding-workflow\",\"image\":\"https://willlai.tw/og-image.png\",\"inLanguage\":\"zh-Hant\"}"}}],["$","$L2",null,{"className":"back-link","href":"/articles","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":15,"height":15,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}]," 回到所有文章"]}],["$","header",null,{"className":"article-heading","children":[["$","$L2",null,{"href":"/articles?category=ai","className":"category-badge ai","children":["AI × 開發實戰",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","h1",null,{"children":"讓 AI 成為開發夥伴，而不只是程式碼產生器"}],["$","p",null,{"className":"article-deck","children":"從釐清問題到驗證成果，建立一套保留工程判斷、也發揮 AI 優勢的開發流程。"}],["$","div",null,{"className":"article-byline","children":[["$","div",null,{"className":"avatar-mini","children":"W."}],["$","span",null,{"children":"Will"}],["$","i",null,{}],["$","time",null,{"dateTime":"2026-10-06","children":"2026.10.06"}],["$","i",null,{}],["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",3," 分鐘閱讀"]}]]}]]}],["$","div",null,{"className":"reading-layout","children":[["$","article",null,{"className":"reading-main","children":[["$","aside",null,{"className":"demo-notice","children":[["$","span",null,{"children":"示範文章"}],"這篇內容用於展示網站版型與寫作格式，正式發布前可替換為你的筆記。"]}],["$","div",null,{"className":"prose","dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}],"$L8"]}],null,"$L9"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XMp3EtaNW_B2zMCwa5u3o"}
+4:["$","div",null,{"className":"article-tags","children":[["$","$L2","AI Coding",{"href":"/articles?q=AI%20Coding","children":["#","AI Coding"]}],["$","$L2","Coding Agent",{"href":"/articles?q=Coding%20Agent","children":["#","Coding Agent"]}],["$","$L2","工作流程",{"href":"/articles?q=%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B","children":["#","工作流程"]}]]}]
+5:["$","$La",null,{}]
+6:["$","div",null,{"className":"author-card","children":[["$","div",null,{"className":"avatar-small","children":["W",["$","span",null,{"children":"."}]]}],["$","div",null,{"children":[["$","h3",null,{"children":"Will"}],["$","p",null,{"children":["一個軟體工程師的 AI、開發與成長筆記。",["$","br",null,{}],"Always learning. Always building."]}],["$","$L2",null,{"href":"/about","children":["關於作者 ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}]]}]
+7:["$","aside",null,{"className":"reading-sidebar","children":["$","div",null,{"className":"toc","children":[["$","span",null,{"className":"eyebrow","children":"IN THIS NOTE"}],["$","h2",null,{"children":"這篇筆記的內容"}],["$","nav",null,{"aria-label":"文章目錄","children":[["$","a","先定義問題再要求程式碼",{"href":"#先定義問題再要求程式碼","className":"","children":"先定義問題，再要求程式碼"}],["$","a","把任務縮成可以驗證的一步",{"href":"#把任務縮成可以驗證的一步","className":"","children":"把任務縮成可以驗證的一步"}],["$","a","一份可重複使用的任務描述",{"href":"#一份可重複使用的任務描述","className":"toc-sub","children":"一份可重複使用的任務描述"}],["$","a","把驗證視為開發流程",{"href":"#把驗證視為開發流程","className":"","children":"把驗證視為開發流程"}],["$","a","好的合作會保留理解",{"href":"#好的合作會保留理解","className":"","children":"好的合作，會保留理解"}]]}],["$","$L2",null,{"className":"toc-all","href":"/articles?category=ai","children":["更多","AI 實戰"," ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}]}]
+8:["$","section",null,{"className":"related-section","children":[["$","div",null,{"className":"section-header","children":[["$","div",null,{"children":[["$","span",null,{"className":"eyebrow","children":"KEEP EXPLORING"}],["$","h2",null,{"children":["接著讀這些",["$","span",null,{"className":"heading-period","children":"。"}]]}]]}],["$","$L2",null,{"href":"/articles","className":"text-link","children":["所有文章 ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":16,"height":16,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}],["$","div",null,{"className":"post-grid","children":[["$","$L2","coding-agent-context",{"href":"/articles/coding-agent-context","className":"post-card","children":[["$","div",null,{"className":"post-art art-ai","aria-hidden":"true","children":[["$","div",null,{"className":"art-grid"}],[["$","div",null,{"className":"art-orbit orbit-one"}],["$","div",null,{"className":"art-orbit orbit-two"}],["$","div",null,{"className":"art-chip","children":[["$","span",null,{"children":"✳"}],["$","small",null,{"children":"human + agent"}]]}],["$","span",null,{"className":"art-label top-label","children":"INPUT → INTENT"}],["$","span",null,{"className":"art-label bottom-label","children":"BUILD WITH INTENTION"}],["$","span",null,{"className":"art-node node-one"}],["$","span",null,{"className":"art-node node-two"}]]]}],["$","div",null,{"className":"post-card-body","children":[["$","div",null,{"className":"post-card-meta","children":[["$","span",null,{"className":"category-text ai","children":"AI 實戰"}],["$","span",null,{"children":"2026.10.03"}]]}],["$","h3",null,{"children":["給 Coding Agent 的上下文，該放什麼？",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":19,"height":19,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","p",null,{"children":"整理專案慣例、任務邊界與驗收條件，減少 AI 在錯誤方向上努力的機會。"}],["$","div",null,{"className":"post-card-bottom","children":[["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",2," 分鐘閱讀"]}],["$","span",null,{"className":"demo-label","children":"示範文章"}]]}]]}]]}],["$","$L2","simpler-software-decisions",{"href":"/articles/simpler-software-decisions","className":"post-card","children":[["$","div",null,{"className":"post-art art-engineering","aria-hidden":"true","children":[["$","div",null,{"className":"art-grid"}],[["$","div",null,{"className":"art-code","children":[["$","span",null,{"children":[["$","i",null,{"children":"const"}]," problem = understand();"]}],["$","span",null,{"children":[["$","i",null,{"children":"const"}]," solution = simplify();"]}],["$","span",null,{"className":"code-comment","children":"// make it work. make it clear."}]]}],["$","div",null,{"className":"art-bracket bracket-left","children":"{"}],["$","div",null,{"className":"art-bracket bracket-right","children":"}"}],["$","span",null,{"className":"art-label bottom-label","children":"LESS, BUT BETTER"}]]]}],["$","div",null,{"className":"post-card-body","children":[["$","div",null,{"className":"post-card-meta","children":[["$","span",null,{"className":"category-text engineering","children":"工程解法"}],["$","span",null,{"children":"2026.10.05"}]]}],["$","h3",null,{"children":["好的技術決策，從問對問題開始",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":19,"height":19,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","p",null,{"children":"選框架、拆服務、加快取之前，先釐清限制。讓架構服務眼前的問題，也保留明天的選擇。"}],["$","div",null,{"className":"post-card-bottom","children":[["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":["$Lb","$Lc","$undefined"]}]," ",3," 分鐘閱讀"]}],"$Ld"]}]]}]]}],"$Le"]}]]}]
+9:["$","$Lf",null,{"children":["$","$10",null,{"name":"Next.MetadataOutlet","children":"$@11"}]}]
+b:["$","path","135r8i",{"d":"M12 6v6h4"}]
+c:["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}]
+d:["$","span",null,{"className":"demo-label","children":"示範文章"}]
+e:["$","$L2","engineer-growth",{"href":"/articles/engineer-growth","className":"post-card","children":[["$","div",null,{"className":"post-art art-growth","aria-hidden":"true","children":[["$","div",null,{"className":"art-grid"}],[["$","svg",null,{"viewBox":"0 0 300 160","className":"growth-drawing","children":[["$","path",null,{"d":"M20 132h260M52 132V107h39v25m18 0V83h39v49m18 0V57h39v75m18 0V29h39v103","fill":"none","stroke":"currentColor","strokeWidth":"1.3"}],["$","path",null,{"d":"M54 91C108 83 160 40 246 17","fill":"none","stroke":"currentColor","strokeWidth":"2","strokeDasharray":"4 5"}],["$","circle",null,{"cx":"54","cy":"91","r":"4","fill":"currentColor"}],["$","circle",null,{"cx":"246","cy":"17","r":"4","fill":"currentColor"}]]}],["$","span",null,{"className":"art-label top-label","children":"A WORK IN PROGRESS"}],["$","span",null,{"className":"art-label bottom-label","children":"SMALL STEPS. LONG GAME."}]]]}],["$","div",null,{"className":"post-card-body","children":[["$","div",null,{"className":"post-card-meta","children":[["$","span",null,{"className":"category-text growth","children":"工程師成長"}],["$","span",null,{"children":"2026.10.04"}]]}],["$","h3",null,{"children":["工程師的成長，不只是學會更多框架",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":19,"height":19,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","p",null,{"children":"從完成任務到理解問題，重新整理技術能力、溝通與判斷力之間的關係。"}],["$","div",null,{"className":"post-card-bottom","children":[["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",2," 分鐘閱讀"]}],["$","span",null,{"className":"demo-label","children":"示範文章"}]]}]]}]]}]
+11:null
