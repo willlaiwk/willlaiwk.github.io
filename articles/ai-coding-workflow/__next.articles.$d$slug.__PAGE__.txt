@@ -3,78 +3,104 @@
 a:I[9387,["500","static/chunks/500-c99b8dfd3de17c86.js","904","static/chunks/app/articles/%5Bslug%5D/page-d557d41cf5fc1e4c.js"],"ArticleActions"]
 f:I[484,[],"OutletBoundary"]
 10:"$Sreact.suspense"
-3:Td73,<p>當 AI 可以在幾秒鐘內產生一段程式碼，真正的挑戰就從「怎麼寫」變成「要寫什麼，以及怎麼知道它是對的」。</p>
-<p>這篇筆記提出一個可實驗的工作方式：讓 AI 參與實作，但把問題定義、技術取捨與驗證留在工程師的責任範圍內。</p>
-<h2 id="先定義問題再要求程式碼">先定義問題，再要求程式碼</h2>
-<p>「幫我加搜尋」是一個需求方向，還不是完整的工程任務。先把讀者或使用者的情境說清楚：</p>
-<ul>
-<li>需要搜尋哪些欄位？標題、摘要，還是文章全文？</li>
-<li>搜尋結果需要能透過網址分享嗎？</li>
-<li>資料量有多大？是否真的需要後端搜尋服務？</li>
-<li>找不到結果時，使用者下一步可以做什麼？</li>
-</ul>
-<p>越早回答這些問題，越能避免得到一個看起來完整、實際上不符合需求的功能。</p>
+3:T24ea,<p>當 AI 可以在幾秒鐘內產出幾百行程式碼，軟體開發的瓶頸其實已經轉移了。現在真正卡住團隊的，往往不是「寫不出來」，而是「人」——我們對系統的理解、做技術決策的速度、審查程式碼的方式，甚至是團隊既有的文化與流程。</p>
+<p>這篇筆記想分享我在日常產品開發中，與 Coding Agent 協作的真實體悟：為什麼我們不能把大腦外包給 AI，以及我如何透過「規格先行、Session 切分、跨模型審查與證據交付」，建立一套真正可控的開發流程。</p>
+<h2 id="沒有領域理解與規格邊界連-ai-的提問都接不住">沒有領域理解與規格邊界，連 AI 的提問都接不住</h2>
+<p>很多人以為遇到不熟悉的大型專案，正好可以交給 AI 幫忙重構。但我近期剛加入新公司、接手一個大型專案的部分重構時，卻狠狠踩了一個坑。</p>
+<p>當時在缺乏文件、自己也還不熟悉整體業務脈絡、現有架構與各模組相依性的情況下，我很難在一開始就定義出精準的規格與任務邊界。那時我想：「沒關係，先請 Agent 幫我探索並產生重構計畫。」</p>
+<p>結果在討論過程中，即使 Agent 主動提出了很多關鍵問題與選項，我卻因為對專案的業務與底層相依性不夠了解，根本無法做出好的判斷與回答。更糟的是，在沒有明確規格與驗收條件（AC）的狀態下邊做邊改，對話的 Context 越滾越大，Agent 開始發散、甚至遺忘最前面的決策，最終導致重構方向過於龐大且發散，幾乎難以收斂。</p>
+<p>這次經驗讓我非常確定兩件事：</p>
+<ol>
+<li><strong>AI 無法替你補齊「領域認知」</strong>：當工程師對業務領域（Domain）或技術底層理解不足時，就算 Agent 會提問，你也接不住。在動手改架構前，人必須先搞懂系統邊界與相依性。</li>
+<li><strong>沒有規格書就開工，長 Context 必然失控</strong>：不先把邊界釘死，Agent 只會在錯誤或過大的方向上加速狂奔。</li>
+</ol>
 <blockquote>
-<p>清楚的上下文不是附加資訊，而是實作的一部分。</p>
+<p>清楚的規格與上下文不是附加資訊，而是防止 Agent 在長對話中迷航的錨點。</p>
 </blockquote>
-<h2 id="把任務縮成可以驗證的一步">把任務縮成可以驗證的一步</h2>
-<p>與其一次要求 Agent 完成整個產品，不如把工作切成有明確邊界的小步驟。</p>
+<h2 id="從邊做邊聊改為規格先行一階段一-session">從「邊做邊聊」改為「規格先行、一階段一 Session」</h2>
+<p>現在動工前，我一定會先把任務目標與足夠的上下文素材提供給 Agent，透過來回討論先收斂出兩份產出，才允許寫程式：</p>
+<ul>
+<li><strong>規格書（Spec）</strong>：明確寫下 <strong>Why</strong>（為什麼做）、<strong>What</strong>（做什麼）、<strong>Scope</strong>（<strong>In Scope / Out of Scope</strong>，明確界定這次做什麼、不做什麼）、<strong>How</strong>（架構與技術思路）以及 <strong>AC</strong>（驗收條件）。</li>
+<li><strong>任務清單（Phases → Tasks）</strong>：如果是較大的改動，會先拆成多個階段（Phases），每個階段底下再拆出具體的子任務（Tasks）。</li>
+</ul>
+<h3 id="一份動工前的規格與階段拆解範例">一份動工前的規格與階段拆解範例</h3>
+<p>以下是一個簡化版的骨架範例，用來示意每個區塊涵蓋的方向（實際專案中的 Spec 會包含更完整的資料結構、流程細節與邊界定義，不會只有短短一兩句話）：</p>
+<pre><code class="language-text">[Spec 摘要（簡化示意）]
+- Why：既有模組耦合度過高，修改單一流程容易影響其他業務邏輯
+- What：抽離共用狀態與資料流，保持對外介面與既有行為不變
+- Scope：
+  - In Scope：核心狀態模組抽離、既有呼叫端替換、對應單元測試補齊
+  - Out of Scope：不修改 API 回傳格式、不調整 UI 視覺樣式、不順手重構周邊無關模組
+- How：先補齊關鍵邊界驗證，再分階段替換內部實作，不一次重寫全部模組
+- AC：既有功能與邊界情境行為一致、通過型別與測試檢查、附上改動前後對照證據
+
+[任務清單（Phases → Tasks）]
+- Phase 1：梳理相依性、建立共用介面與基礎驗證
+  - Task 1：盤點既有模組相依處，補齊關鍵流程的邊界測試
+  - Task 2：定義新的共用狀態介面與型別
+- Phase 2：遷移核心模組並替換舊有呼叫端
+  - Task 1：實作新的狀態管理邏輯並通過單元測試
+  - Task 2：逐步替換既有元件的呼叫端，確認行為一致
+- Phase 3：清理廢棄程式碼與執行最終整合驗證
+  - Task 1：移除舊有耦合邏輯與不再使用的相依程式碼
+  - Task 2：執行完整檢查並整理改動前後的對照 Evidence
+</code></pre>
+<p>在進入實作時，我會根據任務的數量與大小，決定要切分多少個 Session 來處理——原則上是 <strong>「1 個 Phase 開 1 個獨立的 Session」</strong>。</p>
 <table>
 <thead>
 <tr>
-<th>階段</th>
-<th>工程師提供</th>
-<th>AI 協助</th>
+<th align="left">階段</th>
+<th align="left">工程師的責任</th>
+<th align="left">Coding Agent 的角色</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>理解</td>
-<td>使用情境與限制</td>
-<td>整理問題、列出缺漏</td>
+<td align="left"><strong>對齊與規格</strong></td>
+<td align="left">提供業務背景、釐清模組相依性、界定 In / Out of Scope、拍板決策</td>
+<td align="left">協助梳理脈絡、點出盲點、產出 Spec（Why/What/Scope/How/AC）</td>
 </tr>
 <tr>
-<td>設計</td>
-<td>技術取捨與驗收條件</td>
-<td>提出方案與風險</td>
+<td align="left"><strong>任務拆解</strong></td>
+<td align="left">決定階段邊界與交付粒度</td>
+<td align="left">將 Spec 拆解為 <code>Phases -> Tasks</code> 清單</td>
 </tr>
 <tr>
-<td>實作</td>
-<td>專案慣例與範圍</td>
-<td>撰寫與修改程式</td>
-</tr>
-<tr>
-<td>驗證</td>
-<td>重要情境與判斷</td>
-<td>執行檢查、整理差異</td>
+<td align="left"><strong>分階段實作</strong></td>
+<td align="left">控制 Session 邊界（1 Phase = 1 Session）</td>
+<td align="left">在乾淨的 Context 中專注完成單一 Phase</td>
 </tr>
 </tbody>
 </table>
-<p>例如先完成單一分類篩選，再處理搜尋；先確定資料流，再美化介面。每一步都有可以檢查的結果，也比較容易回頭修正。</p>
-<h3 id="一份可重複使用的任務描述">一份可重複使用的任務描述</h3>
-<pre><code class="language-text">問題：讀者難以在文章列表找到特定主題。
-範圍：標題、摘要、標籤搜尋，不搜尋全文。
-限制：沿用現有樣式，不增加資料庫。
-驗收：搜尋與分類可以組合，網址可以分享，
-      無結果時有清楚的提示與重設入口。
+<p>這樣做的好處是每個 Session 的 Context 都能保持乾淨、聚焦，不會因為對話過長而開始「失憶」或推翻前面的架構決策。</p>
+<h2 id="跨模型唯讀審查與帶證據的交付">跨模型唯讀審查，與「帶證據」的交付</h2>
+<p>當 AI 完成一個較大的任務、改動了大量程式碼時，要求工程師用肉眼一行一行做 Code Review 其實很不切實際——人眼容易疲勞，也很難在幾百行語法細節裡維持高品質的判斷。</p>
+<p>為了讓審查真正有效，我現在在送出 PR / MR 之前，會加入兩道關卡：</p>
+<h3 id="1-用兩個不同模型的-agent-做唯讀-code-review">1. 用兩個不同模型的 Agent 做「唯讀 Code Review」</h3>
+<p>實作完成後，我會根據事先定義好的 Review 規範，指派<strong>與實作模型不同</strong>的另外 <strong>2 個 Agent</strong> 同時進行 Code Review。這裡有兩個關鍵原則：</p>
+<ul>
+<li><strong>Review Agent 只負責審查，不直接修改程式碼</strong>：把「挑錯」與「修改」的職責分離，避免審查者在沒對齊的情況下又把程式改壞。</li>
+<li><strong>雙模型交叉審查</strong>：單一模型往往有固定的思考盲點或偏好，同時讓兩個不同模型的 Agent 平行審查，能涵蓋更完整的問題面向（例如一邊抓出邊界條件遺漏，另一邊抓出架構相依性問題）。</li>
+</ul>
+<h3 id="2-測試綠燈還不夠必須附上-evidence">2. 測試綠燈還不夠，必須附上 Evidence</h3>
+<p>「編譯過了、測試跑通了」不代表真的做對了。在全部任務完成後，我會要求 Agent 附上具體的<strong>驗證證據（Evidence）</strong>，例如修改前後的畫面對照截圖、實際操作錄影，或是關鍵流程的驗證輸出。</p>
+<p>直到跨模型 Review 的問題收斂、證據也齊全後，我才會正式送出 PR / MR。而在 PR Description 中，我也會整理成「方便人類 Reviewer 做決策」的結構：</p>
+<pre><code class="language-text">1. Summary：這次改動的一句話摘要
+2. Why / What / How：為什麼做、改了什麼、背後的架構與思路
+3. Validation &#x26; Evidence：驗證結果、修改前後對照截圖或影片
+4. Risk &#x26; Rollback：可能對既有系統產生的影響範圍與風險、若出問題如何快速回退
+5. Open Questions：需要 Reviewer 一起決議或確認的取捨
+6. Review Guide：建議 Reviewer 的閱讀重點與查看順序
 </code></pre>
-<p>這不是固定的 Prompt 公式，而是一份讓合作雙方理解同一個問題的簡單契約。</p>
-<h2 id="把驗證視為開發流程">把驗證視為開發流程</h2>
-<p>程式碼能編譯，是開始，不是結束。</p>
-<p>除了型別與建置檢查，也需要實際操作：空字串、中文關鍵字、沒有結果、手機螢幕，以及瀏覽器返回後的狀態。這些情境經常比理想路徑更能看出實作品質。</p>
-<p>審查差異時，可以先問三個問題：</p>
-<ol>
-<li>這些修改是否都與目前任務有關？</li>
-<li>新的抽象與依賴是否真的必要？</li>
-<li>如果 AI 沒有參與，自己能解釋這段程式嗎？</li>
-</ol>
-<h2 id="好的合作會保留理解">好的合作，會保留理解</h2>
-<p>AI 的價值可以是減少重複工作、協助找出盲點，或讓實驗更快開始。但工程師仍需要理解系統，才能判斷解法是否合適。</p>
-<p>下一次使用 Coding Agent，可以先試一個小調整：在要求實作前，多寫三行背景與驗收條件。觀察來回修正的次數，以及自己是否更容易理解最後的結果。</p>0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"container article-page","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"讓 AI 成為開發夥伴，而不只是程式碼產生器\",\"description\":\"從釐清問題到驗證成果，建立一套保留工程判斷、也發揮 AI 優勢的開發流程。\",\"datePublished\":\"2026-10-06T00:00:00+08:00\",\"author\":{\"@type\":\"Person\",\"name\":\"Will\",\"url\":\"https://willlai.tw/about\"},\"mainEntityOfPage\":\"https://willlai.tw/articles/ai-coding-workflow\",\"image\":\"https://willlai.tw/og-image.png\",\"inLanguage\":\"zh-Hant\"}"}}],["$","$L2",null,{"className":"back-link","href":"/articles","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":15,"height":15,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}]," 回到所有文章"]}],["$","header",null,{"className":"article-heading","children":[["$","$L2",null,{"href":"/articles?category=ai","className":"category-badge ai","children":["AI × 開發實戰",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","h1",null,{"children":"讓 AI 成為開發夥伴，而不只是程式碼產生器"}],["$","p",null,{"className":"article-deck","children":"從釐清問題到驗證成果，建立一套保留工程判斷、也發揮 AI 優勢的開發流程。"}],["$","div",null,{"className":"article-byline","children":[["$","div",null,{"className":"avatar-mini","children":"W."}],["$","span",null,{"children":"Will"}],["$","i",null,{}],["$","time",null,{"dateTime":"2026-10-06","children":"2026.10.06"}],["$","i",null,{}],["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",3," 分鐘閱讀"]}]]}]]}],["$","div",null,{"className":"reading-layout","children":[["$","article",null,{"className":"reading-main","children":[["$","aside",null,{"className":"demo-notice","children":[["$","span",null,{"children":"示範文章"}],"這篇內容用於展示網站版型與寫作格式，正式發布前可替換為你的筆記。"]}],["$","div",null,{"className":"prose","dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}],"$L8"]}],null,"$L9"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"djkD8d-DuL3F6KuTfsNpd"}
-4:["$","div",null,{"className":"article-tags","children":[["$","$L2","AI Coding",{"href":"/articles?q=AI%20Coding","children":["#","AI Coding"]}],["$","$L2","Coding Agent",{"href":"/articles?q=Coding%20Agent","children":["#","Coding Agent"]}],["$","$L2","工作流程",{"href":"/articles?q=%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B","children":["#","工作流程"]}]]}]
+<p>這樣組織 PR Description 的好處，是能大幅降低 Reviewer 的認知負擔——讓團隊不必在幾百行程式碼差異裡拼湊改動意圖，而是透過完整的脈絡、驗證證據與閱讀順序，直接把精力放在真正的架構判斷與決策上。</p>
+<h2 id="當人成為最大瓶頸別把大腦外包給-ai">當「人」成為最大瓶頸：別把大腦外包給 AI</h2>
+<p>走過這段從踩坑到建立流程的過程，我對「人與 AI 協作」最大的體悟是：<strong>AI 雖然大幅加速了開發與寫作，但「人」卻成了目前最大的瓶頸。</strong></p>
+<p>這個瓶頸體現在做決策的速度、Code Review 的消化能力，甚至是公司的文化與協作流程。尤其在當前的 AI 時代，很多人習慣把大腦外包給 Agent——不看規格、不深究業務與技術細節，久而久之漸漸失去獨立判斷的能力，最後只能盲目地按下 Accept，照單全收 Agent 的建議。</p>
+<p>AI 可以幫我們寫程式、跑測試、甚至交叉檢查錯誤；但理解系統、定義問題邊界，以及為最終的技術決策負責，始終是工程師無法外包的核心價值。</p>0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"container article-page","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"讓 AI 成為開發夥伴：不把大腦外包的 Coding Agent 實戰流程\",\"description\":\"當 AI 幾秒鐘就能產出程式碼，開發的瓶頸已經轉移到「人」。分享我從大型專案重構踩坑後，建立的規格先行、Session 切分與跨模型審查流程。\",\"datePublished\":\"2026-10-18T00:00:00+08:00\",\"author\":{\"@type\":\"Person\",\"name\":\"Will\",\"url\":\"https://willlai.tw/about\"},\"mainEntityOfPage\":\"https://willlai.tw/articles/ai-coding-workflow\",\"image\":\"https://willlai.tw/og-image.png\",\"inLanguage\":\"zh-Hant\"}"}}],["$","$L2",null,{"className":"back-link","href":"/articles","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":15,"height":15,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}]," 回到所有文章"]}],["$","header",null,{"className":"article-heading","children":[["$","$L2",null,{"href":"/articles?category=ai","className":"category-badge ai","children":["AI × 開發實戰",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","h1",null,{"children":"讓 AI 成為開發夥伴：不把大腦外包的 Coding Agent 實戰流程"}],["$","p",null,{"className":"article-deck","children":"當 AI 幾秒鐘就能產出程式碼，開發的瓶頸已經轉移到「人」。分享我從大型專案重構踩坑後，建立的規格先行、Session 切分與跨模型審查流程。"}],["$","div",null,{"className":"article-byline","children":[["$","div",null,{"className":"avatar-mini","children":"W."}],["$","span",null,{"children":"Will"}],["$","i",null,{}],["$","time",null,{"dateTime":"2026-10-18","children":"2026.10.18"}],["$","i",null,{}],["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",8," 分鐘閱讀"]}]]}]]}],["$","div",null,{"className":"reading-layout","children":[["$","article",null,{"className":"reading-main","children":[false,["$","div",null,{"className":"prose","dangerouslySetInnerHTML":{"__html":"$3"}}],"$L4","$L5","$L6"]}],"$L7"]}],"$L8"]}],null,"$L9"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"npK00MIROJGwFJZurE7ha"}
+4:["$","div",null,{"className":"article-tags","children":[["$","$L2","AI Coding",{"href":"/articles?q=AI%20Coding","children":["#","AI Coding"]}],["$","$L2","Coding Agent",{"href":"/articles?q=Coding%20Agent","children":["#","Coding Agent"]}],["$","$L2","工作流程",{"href":"/articles?q=%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B","children":["#","工作流程"]}],["$","$L2","Code Review",{"href":"/articles?q=Code%20Review","children":["#","Code Review"]}]]}]
 5:["$","$La",null,{}]
 6:["$","div",null,{"className":"author-card","children":[["$","div",null,{"className":"avatar-small","children":["W",["$","span",null,{"children":"."}]]}],["$","div",null,{"children":[["$","h3",null,{"children":"Will"}],["$","p",null,{"children":["一個軟體工程師的 AI、開發與成長筆記。",["$","br",null,{}],"Always learning. Always building."]}],["$","$L2",null,{"href":"/about","children":["關於作者 ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}]]}]
-7:["$","aside",null,{"className":"reading-sidebar","children":["$","div",null,{"className":"toc","children":[["$","span",null,{"className":"eyebrow","children":"IN THIS NOTE"}],["$","h2",null,{"children":"這篇筆記的內容"}],["$","nav",null,{"aria-label":"文章目錄","children":[["$","a","先定義問題再要求程式碼",{"href":"#先定義問題再要求程式碼","className":"","children":"先定義問題，再要求程式碼"}],["$","a","把任務縮成可以驗證的一步",{"href":"#把任務縮成可以驗證的一步","className":"","children":"把任務縮成可以驗證的一步"}],["$","a","一份可重複使用的任務描述",{"href":"#一份可重複使用的任務描述","className":"toc-sub","children":"一份可重複使用的任務描述"}],["$","a","把驗證視為開發流程",{"href":"#把驗證視為開發流程","className":"","children":"把驗證視為開發流程"}],["$","a","好的合作會保留理解",{"href":"#好的合作會保留理解","className":"","children":"好的合作，會保留理解"}]]}],["$","$L2",null,{"className":"toc-all","href":"/articles?category=ai","children":["更多","AI 實戰"," ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}]}]
+7:["$","aside",null,{"className":"reading-sidebar","children":["$","div",null,{"className":"toc","children":[["$","span",null,{"className":"eyebrow","children":"IN THIS NOTE"}],["$","h2",null,{"children":"這篇筆記的內容"}],["$","nav",null,{"aria-label":"文章目錄","children":[["$","a","沒有領域理解與規格邊界連-ai-的提問都接不住",{"href":"#沒有領域理解與規格邊界連-ai-的提問都接不住","className":"","children":"沒有領域理解與規格邊界，連 AI 的提問都接不住"}],["$","a","從邊做邊聊改為規格先行一階段一-session",{"href":"#從邊做邊聊改為規格先行一階段一-session","className":"","children":"從「邊做邊聊」改為「規格先行、一階段一 Session」"}],["$","a","一份動工前的規格與階段拆解範例",{"href":"#一份動工前的規格與階段拆解範例","className":"toc-sub","children":"一份動工前的規格與階段拆解範例"}],["$","a","跨模型唯讀審查與帶證據的交付",{"href":"#跨模型唯讀審查與帶證據的交付","className":"","children":"跨模型唯讀審查，與「帶證據」的交付"}],["$","a","1-用兩個不同模型的-agent-做唯讀-code-review",{"href":"#1-用兩個不同模型的-agent-做唯讀-code-review","className":"toc-sub","children":"1. 用兩個不同模型的 Agent 做「唯讀 Code Review」"}],["$","a","2-測試綠燈還不夠必須附上-evidence",{"href":"#2-測試綠燈還不夠必須附上-evidence","className":"toc-sub","children":"2. 測試綠燈還不夠，必須附上 Evidence"}],["$","a","當人成為最大瓶頸別把大腦外包給-ai",{"href":"#當人成為最大瓶頸別把大腦外包給-ai","className":"","children":"當「人」成為最大瓶頸：別把大腦外包給 AI"}]]}],["$","$L2",null,{"className":"toc-all","href":"/articles?category=ai","children":["更多","AI 實戰"," ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}]}]
 8:["$","section",null,{"className":"related-section","children":[["$","div",null,{"className":"section-header","children":[["$","div",null,{"children":[["$","span",null,{"className":"eyebrow","children":"KEEP EXPLORING"}],["$","h2",null,{"children":["接著讀這些",["$","span",null,{"className":"heading-period","children":"。"}]]}]]}],["$","$L2",null,{"href":"/articles","className":"text-link","children":["所有文章 ",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":16,"height":16,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}]]}],["$","div",null,{"className":"post-grid","children":[["$","$L2","coding-agent-context",{"href":"/articles/coding-agent-context","className":"post-card","children":[["$","div",null,{"className":"post-art art-ai","aria-hidden":"true","children":[["$","div",null,{"className":"art-grid"}],[["$","div",null,{"className":"art-orbit orbit-one"}],["$","div",null,{"className":"art-orbit orbit-two"}],["$","div",null,{"className":"art-chip","children":[["$","span",null,{"children":"◈"}],["$","small",null,{"children":"HUMAN // AGENT"}]]}],["$","span",null,{"className":"art-label top-label","children":"SYS.IN → INTENT"}],["$","span",null,{"className":"art-label bottom-label","children":"EXEC // INTENTION"}],["$","span",null,{"className":"art-node node-one"}],["$","span",null,{"className":"art-node node-two"}]]]}],["$","div",null,{"className":"post-card-body","children":[["$","div",null,{"className":"post-card-meta","children":[["$","span",null,{"className":"category-text ai","children":"AI 實戰"}],["$","span",null,{"children":"2026.10.03"}]]}],["$","h3",null,{"children":["給 Coding Agent 的上下文，該放什麼？",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":19,"height":19,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","p",null,{"children":"整理專案慣例、任務邊界與驗收條件，減少 AI 在錯誤方向上努力的機會。"}],["$","div",null,{"className":"post-card-bottom","children":[["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":[["$","path","135r8i",{"d":"M12 6v6h4"}],["$","circle","1mglay",{"cx":"12","cy":"12","r":"10"}],"$undefined"]}]," ",2," 分鐘閱讀"]}],["$","span",null,{"className":"demo-label","children":"示範文章"}]]}]]}]]}],["$","$L2","simpler-software-decisions",{"href":"/articles/simpler-software-decisions","className":"post-card","children":[["$","div",null,{"className":"post-art art-engineering","aria-hidden":"true","children":[["$","div",null,{"className":"art-grid"}],[["$","div",null,{"className":"art-code","children":[["$","span",null,{"children":[["$","i",null,{"children":"const"}]," problem = ",["$","b",null,{"children":"analyze"}],"();"]}],["$","span",null,{"children":[["$","i",null,{"children":"const"}]," system = ",["$","b",null,{"children":"optimize"}],"();"]}],["$","span",null,{"className":"code-comment","children":"// latency ↓ clarity ↑"}]]}],["$","div",null,{"className":"art-bracket bracket-left","children":"{"}],["$","div",null,{"className":"art-bracket bracket-right","children":"}"}],["$","span",null,{"className":"art-label top-label","children":"ARCH // CORE"}],["$","span",null,{"className":"art-label bottom-label","children":"LESS, BUT BETTER"}]]]}],["$","div",null,{"className":"post-card-body","children":[["$","div",null,{"className":"post-card-meta","children":[["$","span",null,{"className":"category-text engineering","children":"工程解法"}],["$","span",null,{"children":"2026.10.05"}]]}],["$","h3",null,{"children":["好的技術決策，從問對問題開始",["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":19,"height":19,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-up-right","aria-hidden":"true","children":[["$","path","1tivn9",{"d":"M7 7h10v10"}],["$","path","1vkiza",{"d":"M7 17 17 7"}],"$undefined"]}]]}],["$","p",null,{"children":"選框架、拆服務、加快取之前，先釐清限制。讓架構服務眼前的問題，也保留明天的選擇。"}],["$","div",null,{"className":"post-card-bottom","children":[["$","span",null,{"children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-clock3 lucide-clock-3","aria-hidden":"true","children":["$Lb","$Lc","$undefined"]}]," ",3," 分鐘閱讀"]}],"$Ld"]}]]}]]}],"$Le"]}]]}]
 9:["$","$Lf",null,{"children":["$","$10",null,{"name":"Next.MetadataOutlet","children":"$@11"}]}]
 b:["$","path","135r8i",{"d":"M12 6v6h4"}]
